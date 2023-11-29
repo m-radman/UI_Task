@@ -1,0 +1,14 @@
+{
+  "name": "ui_task",
+  "version": "1.0.0",
+  "description": "qa automation task",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mradman",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^13.6.0"
+  }
+}
