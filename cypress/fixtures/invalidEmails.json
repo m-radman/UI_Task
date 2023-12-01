@@ -1,0 +1,11 @@
+{
+    "emails": [
+        "emailexample.com",
+        "email?@example.com",
+        "email@exa!mple.com",
+        "email@example.c",
+        "@example.com",
+        "email@.com",
+        "email@example.com."
+    ]
+}
