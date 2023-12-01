@@ -1,34 +1,49 @@
 class PracticeFormPage {
     elements = {
+        app: () => cy.get("#app"),
         firstNameField: () => cy.get("#firstName"),
         lastNameField: () => cy.get("#lastName"),
         emailField: () => cy.get("#userEmail"),
         genderRadioOption: (option) => cy.get(`#gender-radio-${option}`),
-        mobileField: () => cy.get("#userNumber"),
+        mobileNumberField: () => cy.get("#userNumber"),
         dateOfBirthField: () => cy.get("#dateOfBirthInput"),
+        dayPicker: (day_no) => cy.get(".react-datepicker__month").contains(day_no),
+        monthPicker: () => cy.get(".react-datepicker__month-select"),
+        yearPicker:() => cy.get(".react-datepicker__year-select"),
         subjectsField: () => cy.get("#subjectsContainer"),
-        hobbiesCheckOption: (option) => cy.get(`#hobbies-checkbox-${option}`),
+        hobbyCheckOption: (option) => cy.get(`#hobbies-checkbox-${option}`),
         uploadPictureInput: () => cy.get("#uploadPicture"),
         currentAddressField: () => cy.get("#currentAddress"),
-        stateDropdown: () => cy.get("#state"),
-        cityDropdown: () => cy.get("#city"),
+        stateDropdown: () => cy.contains("Select State"),
+        cityDropdown: () => cy.contains("Select City"),
         submitBtn: () => cy.get("#submit")
     }
 
+    selectDateOfBirth(day, month, year) {
+        this.elements.dateOfBirthField().click()
+        this.elements.monthPicker().select(month)
+        this.elements.yearPicker().select(year)
+        if(this.elements.dayPicker(day).length > 1) {
+            this.elements.dayPicker(day).eq(1).click()
+        } else {
+            this.elements.dayPicker(day).click()
+        }
+    }
+
     selectGenderOption(gender) {
-        return this.genderRadioOption(this.mapGender(gender)).click()
+        return this.elements.genderRadioOption(this.mapGender(gender)).click({ force: true })
     }
 
     checkHobbyOption(hobby) {
-        return this.hobbiesCheckOption(this.mapHobbies(hobby)).check()
+        return this.elements.hobbyCheckOption(this.mapHobbies(hobby)).check({ force: true })
     }
 
     mapGender(gender) {
-        if (gender === "male") {
+        if (gender === "Male") {
             return 1
-        } else if (gender === "female") {
+        } else if (gender === "Female") {
             return 2
-        } else if (gender === "other") {
+        } else if (gender === "Other") {
             return 3
         } else {
             throw new Error("Unexpected gender!")
@@ -36,14 +51,48 @@ class PracticeFormPage {
     }
 
     mapHobbies(hobby) {
-        if (hobby === "sports") {
+        if (hobby === "Sports") {
             return 1
-        } else if (hobby === "reading") {
+        } else if (hobby === "Reading") {
             return 2
-        } else if (hobby === "music") {
+        } else if (hobby === "Music") {
             return 3
         } else {
             throw new Error("Unexpected hobby option!")
         } 
     }
+
+    enterSubjects(subjects) {
+        subjects.forEach((subject) => {
+            this.elements.subjectsField().type(subject + "{enter}")
+        })
+    }
+
+    selectState(state) {
+        if(state == "NCR") {
+            this.elements.stateDropdown().click({ force: true }).type("{downarrow}{enter}")
+        } else if(state == "Uttar Pradesh") {
+            this.elements.stateDropdown().click({ force: true }).type("{downarrow}{downarrow}{enter}")
+        } else if (state == "Haryana") {
+            this.elements.stateDropdown().click({ force: true }).type("{downarrow}{downarrow}{downarrow}{enter}")
+        } else if (state == "Rajasthan") {
+            this.elements.stateDropdown().click({ force: true }).type("{downarrow}{downarrow}{downarrow}{downarrow}{enter}")
+        } else {
+            throw new Error("Unexpected state input!")
+        }
+    }
+
+    selectCity(city) {
+        if(city == "Delhi" || city == "Agra" || city == "Karnal" || city == "Jaipur") {
+            this.elements.cityDropdown().click({ force: true }).type("{downarrow}{enter}")
+        } else if(city == "Gurgaon" || city == "Lucknow" || city == "Panipat" || city == "Jaiselmer") {
+            this.elements.cityDropdown().click({ force: true }).type("{downarrow}{downarrow}{enter}")
+        } else if(city == "Noida" || city == "Merrut") {
+            this.elements.cityDropdown().click({ force: true }).type("{downarrow}{downarrow}{downarrow}{enter}")
+        } else {
+            throw new Error("Unexpected city input!")
+        }
+    }
 }
+
+export default new PracticeFormPage()

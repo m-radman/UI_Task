@@ -2,12 +2,15 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   env: {
-    tableUrl: "https://demoqa.com/webtables"
+    baseUrl: "https://demoqa.com/",
   },
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
+    blockHosts: [
+      "securepubads.g.doubleclick.net",
+    ],
   },
-  chromeWebSecurity: false
+  chromeWebSecurity: true
 });

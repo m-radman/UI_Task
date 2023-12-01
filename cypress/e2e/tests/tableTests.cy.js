@@ -2,13 +2,13 @@
 
 import tablePage from "../pages/tablePage"
 import employeeRegistrationForm from "../pages/employeeRegistrationForm"
-import { ERROR_COLOR_CODE, SUCCESS_COLOR_CODE } from "../../support/constants"
+import { ERROR_COLOR_CODE } from "../../support/constants"
 import employeeFaker from "../fakers/employeeFaker"
 
 describe("Testing table functionalities", () => {
     
     beforeEach(() => {
-        cy.visit(Cypress.env("tableUrl"))
+        cy.visit(Cypress.env("baseUrl") + "webtables")
     })
 
     Cypress.on('uncaught:exception', (err, runnable) => {
@@ -73,7 +73,7 @@ describe("Testing table functionalities", () => {
     it("Verify email field does not accept invalid email format", () => {
         cy.fixture("invalidEmails").then((fixture) => {
             fixture.emails.forEach((email) => {
-                cy.visit(Cypress.env("tableUrl"))
+                cy.visit(Cypress.env("baseUrl") + "webtables")
 
                 tablePage.elements.addBtn().click()
     
@@ -84,7 +84,7 @@ describe("Testing table functionalities", () => {
         })
     })
 
-    it.only("Update employee info successfully", () => {
+    it("Update employee info successfully", () => {
         const employeeUpdate = employeeFaker.updateEmployeeJob()
 
         tablePage.elements.editBtn().click()
