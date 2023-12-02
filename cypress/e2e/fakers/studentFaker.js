@@ -12,7 +12,7 @@ class StudentFaker {
             gender: this.getGender(),
             mobileNum: Math.floor(Math.random() * 10000000000),
             dateOfBirth: {
-                day: this.getDay(),
+                day: Math.floor(Math.random() * 21 + 10).toString(),
                 month: this.getMonth(),
                 year: Math.floor(Math.random() * 31 + 1975).toString()
             },
@@ -47,10 +47,6 @@ class StudentFaker {
         } else {
             return "Music"
         }
-    }
-
-    getDay() {
-        return Math.floor(Math.random() * 21 + 10)
     }
 
     getMonth() {

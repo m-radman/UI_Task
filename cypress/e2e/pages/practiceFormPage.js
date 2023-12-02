@@ -21,6 +21,7 @@ class PracticeFormPage {
 
     selectDateOfBirth(day, month, year) {
         this.elements.dateOfBirthField().click()
+        // this.elements.dayPicker(day)
         this.elements.monthPicker().select(month)
         this.elements.yearPicker().select(year)
         if(this.elements.dayPicker(day).length > 1) {
