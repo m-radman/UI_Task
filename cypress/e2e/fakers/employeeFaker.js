@@ -34,7 +34,7 @@ class EmployeeFaker {
         }
     }
 
-    updateEmployeeJob() {
+    generateEmployeeSalaryAndDepartment() {
         return {
             salary: Math.floor(Math.random() * 100000),
             department: faker.person.jobArea()

@@ -22,7 +22,7 @@ class EmployeeRegistrationForm {
         this.elements.submitBtn().click()
     }
 
-    editEmployeeJob(updateInfo) {
+    editEmployeeSalaryAndDepartment(updateInfo) {
         this.elements.salaryField().clear().type(updateInfo.salary)
         this.elements.departmentField().clear().type(updateInfo.department)
         this.elements.submitBtn().click()

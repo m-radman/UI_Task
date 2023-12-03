@@ -18,3 +18,13 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+    /* 
+     * If uncaught exception is detected we will 
+     *  prevent Cypress from failing the test
+     *  this has to do with CROSS ORIGIN thing 
+     *  and QA demo website specifically
+     */
+     return false
+})

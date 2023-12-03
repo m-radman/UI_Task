@@ -1,31 +1,33 @@
 import { faker } from "@faker-js/faker"
 
-import { SUBJECTS } from "../../support/constants"
+import { SUBJECTS, UPLOAD_PROFILE_PIC_PATH } from "../../support/constants"
 
 class StudentFaker {
     generateValidStudent() {
-        const state = this.getState()
+        const state = this.getRandomState()
+        const city = this.getRandomCity(state)
+        const gender = this.getRandomGender()
+        const hobby = this.getRandomHobby()
+        const dateOfBirth = this.getRandomDate() 
+
         return {
             firstName: faker.person.firstName(),
             lastName: faker.person.lastName(),
             email: faker.internet.exampleEmail(),
-            gender: this.getGender(),
+            gender: gender,
             mobileNum: Math.floor(Math.random() * 10000000000),
-            dateOfBirth: {
-                day: Math.floor(Math.random() * 21 + 10).toString(),
-                month: this.getMonth(),
-                year: Math.floor(Math.random() * 31 + 1975).toString()
-            },
-            subjects: this.getSubjects(5),
-            hobby: this.getHobby(),
-            picture: "./cypress/e2e/images/profile_pic.jpg",
+            dateOfBirth: dateOfBirth,
+            subjects: this.getRandomSubjects(5),
+            hobby: hobby,
+            picture: UPLOAD_PROFILE_PIC_PATH,
             address: faker.location.streetAddress(),
             state: state,
-            city: this.getCity(state)
+            city: city
         }
     }
 
-    getGender() {
+    getRandomGender() {
+        // Note: we take random value from 1 to 3
         const option = Math.floor(Math.random() * 3 + 1)
 
         if(option == 1) {
@@ -37,7 +39,8 @@ class StudentFaker {
         }
     }
 
-    getHobby() {
+    getRandomHobby() {
+        // Note: we take random value from 1 to 3
         const option = Math.floor(Math.random() * 3 + 1)
 
         if(option == 1) {
@@ -49,9 +52,27 @@ class StudentFaker {
         }
     }
 
-    getMonth() {
-        const month = Math.floor(Math.random() * 12)
+    getRandomDate() {
+        const startDate = new Date(1960, 0, 1) // 1st Jan 1960
+        const endDate = new Date(2005, 11, 31) // 31st Dec 2005
 
+        const randomDate = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
+
+        const day = randomDate.getDate()
+        const month = this.mapMonthIndexToName(randomDate.getMonth())
+        const year = randomDate.getFullYear().toString()
+
+        const dayString = day < 10 ? `0${day}` : `${day}`
+
+        return {
+            day: day,
+            month: month,
+            year: year,
+            formattedDate: `${dayString} ${month},${year}`
+        }
+    }
+
+    mapMonthIndexToName(month) {
         if(month == 0) {
             return "January"
         } else if(month == 1) {
@@ -79,7 +100,7 @@ class StudentFaker {
         }
     }
 
-    getSubjects(num) {
+    getRandomSubjects(num) {
         let index
         let subjects = []
 
@@ -93,7 +114,8 @@ class StudentFaker {
         return subjects
     }
 
-    getState() {
+    getRandomState() {
+        // Note: we take random value from 1 to 4
         const option = Math.floor(Math.random() * 4 + 1)
 
         if(option == 1) {
@@ -107,11 +129,11 @@ class StudentFaker {
         }
     }
 
-    getCity(state) {
-        let option
+    // TODO: maybe rename to getRandomCity
+    getRandomCity(state) {
 
         if(state == "NCR") {
-            option = Math.floor(Math.random() * 3 + 1)
+            const option = Math.floor(Math.random() * 3 + 1)
 
             if(option == 1) {
                 return "Delhi"
@@ -122,7 +144,7 @@ class StudentFaker {
             }
 
         } else if(state == "Uttar Pradesh") {
-            option = Math.floor(Math.random() * 3 + 1)
+            const option = Math.floor(Math.random() * 3 + 1)
 
             if(option == 1) {
                 return "Agra"
@@ -133,7 +155,7 @@ class StudentFaker {
             }
 
         } else if(state == "Haryana") {
-            option = Math.floor(Math.random() * 2 + 1)
+            const option = Math.floor(Math.random() * 2 + 1)
 
             if(option == 1) {
                 return "Karnal"
@@ -141,7 +163,7 @@ class StudentFaker {
                 return "Panipat"
             }
         } else if(state == "Rajasthan"){
-            option = Math.floor(Math.random() * 2 + 1)
+            const option = Math.floor(Math.random() * 2 + 1)
 
             if(option == 1) {
                 return "Jaipur"

@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 import progressBarPage from "../pages/progressBarPage"
-import { SUCCESS_COLOR_CODE, IN_PROGRESS_COLOR_CODE } from "../../support/constants"
+import { SUCCESS_COLOR_CODE, IN_PROGRESS_COLOR_CODE, FULL_TIME, HALF_TIME } from "../../support/constants"
 
 describe("Test progress bar functionality", () => {
 
@@ -9,19 +9,11 @@ describe("Test progress bar functionality", () => {
         cy.visit(Cypress.env("baseUrl") + "progress-bar")
     })
 
-    Cypress.on('uncaught:exception', (err, runnable) => {
-        /* 
-         * If uncaught exception is detected we will 
-         *  prevent Cypress from failing the test
-         *  this has to do with CROSS ORIGIN thing 
-         *  and QA demo website specifically
-         */
-         return false
-    })
-
-    it("Confirm progress bar completes 100% successfully", () => {
+    it("Progress bar completes 100% successfully", () => {
         progressBarPage.elements.startStopBtn().click()
-        cy.wait(10000)
+        cy.wait(FULL_TIME)
+
+        // assert progress bar reached 100% and reset button appeared
         progressBarPage.elements.progressBar().should("have.text", "100%")
         progressBarPage.elements.progressBar().should("have.css", "background-color", SUCCESS_COLOR_CODE)
         progressBarPage.elements.startStopBtn().should("not.exist")
@@ -30,25 +22,35 @@ describe("Test progress bar functionality", () => {
 
     it("Confirm progress bar can be paused and continued to completion", () => {
         progressBarPage.elements.startStopBtn().click()
-        cy.wait(4900)
+        cy.wait(HALF_TIME)
+
+        // assert progress bar is half way to completion
         progressBarPage.elements.startStopBtn().click()
         progressBarPage.elements.progressBar().should("have.text", "50%")
         progressBarPage.elements.progressBar().should("have.css", "background-color", IN_PROGRESS_COLOR_CODE)
 
         progressBarPage.elements.startStopBtn().click()
-        cy.wait(5000)
+        cy.wait(HALF_TIME)
+
+        // assert progress bar reached 100% and reset button appeared
         progressBarPage.elements.progressBar().should("have.text", "100%")
         progressBarPage.elements.progressBar().should("have.css", "background-color", SUCCESS_COLOR_CODE)
         progressBarPage.elements.resetBtn().should("exist").and("be.visible")
     })
 
-    it("Confirm progress bar can be reseted to start state after completion", () => {
+    it("Confirm progress bar can be reseted to initial state after completion", () => {
         progressBarPage.elements.startStopBtn().click()
-        cy.wait(10000)
-        progressBarPage.elements.startStopBtn().should("not.exist")
+        cy.wait(FULL_TIME)
 
+        // expect STOP button to be replaced with RESET button
+        progressBarPage.elements.startStopBtn().should("not.exist")
+        progressBarPage.elements.resetBtn().should("exist")
+
+        // reset the progress 
         progressBarPage.elements.resetBtn().click()
-        progressBarPage.elements.startStopBtn().should("exist").and("be.visible")
+
+        // assert everything is returned to initial state
         progressBarPage.elements.progressBar().should("have.text", "0%")
+        progressBarPage.elements.startStopBtn().should("exist").and("be.visible")
     })
 })

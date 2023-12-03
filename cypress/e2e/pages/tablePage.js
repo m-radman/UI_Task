@@ -1,10 +1,10 @@
 class TablePage {
-    FIRST_NAME_COL = 0
-    LAST_NAME_COL = 1
-    AGE_COL = 2
-    EMAIL_COL = 3
-    SALARY_COL = 4
-    DEPARTMENT_COL = 5
+    firstNameColumnIndex = 0
+    lastNameColumnIndex = 1
+    ageColumnIndex = 2
+    emailColumnIndex = 3
+    salaryColumnIndex = 4
+    departmentColumnIndex = 5
 
     elements = {
         addBtn: () => cy.get("#addNewRecordButton"),
@@ -18,20 +18,18 @@ class TablePage {
     
     mapToColumn(columnName) {
         if (columnName === "first") {
-            return this.FIRST_NAME_COL
+            return this.firstNameColumnIndex
         } else if (columnName === "last") {
-            return this.LAST_NAME_COL
+            return this.lastNameColumnIndex
         } else if (columnName === "age") {
-            return this.AGE_COL
+            return this.ageColumnIndex
         } else if (columnName === "email") {
-            return this.EMAIL_COL
+            return this.emailColumnIndex
         } else if (columnName === "salary") {
-            return this.SALARY_COL
+            return this.salaryColumnIndex
         } else if (columnName === "department") {
-            return this.DEPARTMENT_COL
-        } else {
-            throw new Error("Unexpected column name!")
-        } 
+            return this.departmentColumnIndex
+        }
     }
 }
 

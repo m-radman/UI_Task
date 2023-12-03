@@ -1,6 +1,5 @@
 class PracticeFormPage {
     elements = {
-        app: () => cy.get("#app"),
         firstNameField: () => cy.get("#firstName"),
         lastNameField: () => cy.get("#lastName"),
         emailField: () => cy.get("#userEmail"),
@@ -21,22 +20,13 @@ class PracticeFormPage {
 
     selectDateOfBirth(day, month, year) {
         this.elements.dateOfBirthField().click()
-        // this.elements.dayPicker(day)
-        this.elements.monthPicker().select(month)
         this.elements.yearPicker().select(year)
-        if(this.elements.dayPicker(day).length > 1) {
-            this.elements.dayPicker(day).eq(1).click()
-        } else {
-            this.elements.dayPicker(day).click()
-        }
+        this.elements.monthPicker().select(month)
+        this.elements.dayPicker(day).click()
     }
 
     selectGenderOption(gender) {
         return this.elements.genderRadioOption(this.mapGender(gender)).click({ force: true })
-    }
-
-    checkHobbyOption(hobby) {
-        return this.elements.hobbyCheckOption(this.mapHobbies(hobby)).check({ force: true })
     }
 
     mapGender(gender) {
@@ -49,6 +39,10 @@ class PracticeFormPage {
         } else {
             throw new Error("Unexpected gender!")
         } 
+    }
+
+    checkHobbyOption(hobby) {
+        return this.elements.hobbyCheckOption(this.mapHobbies(hobby)).check({ force: true })
     }
 
     mapHobbies(hobby) {

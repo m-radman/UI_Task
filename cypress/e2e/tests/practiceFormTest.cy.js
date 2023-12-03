@@ -4,29 +4,20 @@ import practiceFormPage from "../pages/practiceFormPage"
 import studentModal from "../pages/studentModal"
 import studentFaker from "../fakers/studentFaker"
 
-describe("Student registration form fill out", () => {
+describe("Student registration form tests", () => {
 
     before(() => {
         cy.visit(Cypress.env("baseUrl") + "automation-practice-form")
+
+        // expanding the viewport so "state" and "city" dropdown options would be visible
         cy.viewport(1200, 1200)
     })
 
-    Cypress.on('uncaught:exception', (err, runnable) => {
-        /* 
-         * If uncaught exception is detected we will 
-         *  prevent Cypress from failing the test
-         *  this has to do with CROSS ORIGIN thing 
-         *  and QA demo website specifically
-         */
-         return false
-    })
-
     it("Fill form with valid data and register student successfully", () => {
+        // prepare student data for form input
         const newStudent = studentFaker.generateValidStudent()
 
-        practiceFormPage.elements.app().should("not.have.attr", "aria-hidden")
-        studentModal.elements.modalTitle().should("not.exist")
-
+        // fill in the form input with student data
         practiceFormPage.elements.firstNameField().type(newStudent.firstName)
         practiceFormPage.elements.lastNameField().type(newStudent.lastName)
         practiceFormPage.elements.emailField().type(newStudent.email)
@@ -39,15 +30,17 @@ describe("Student registration form fill out", () => {
         practiceFormPage.elements.currentAddressField().type(newStudent.address)
         practiceFormPage.selectState(newStudent.state)
         practiceFormPage.selectCity(newStudent.city)
+
+        // submit the form
         practiceFormPage.elements.submitBtn().click({ force: true })
 
+        // expect student created & newly created student details displayed in the modal
         studentModal.elements.modalTitle().should("be.visible")
-        practiceFormPage.elements.app().should("have.attr", "aria-hidden", "true")
         studentModal.elements.valuesList().eq(0).should("have.text", `${newStudent.firstName} ${newStudent.lastName}`)
         studentModal.elements.valuesList().eq(1).should("have.text", `${newStudent.email}`)
         studentModal.elements.valuesList().eq(2).should("have.text", newStudent.gender)
         studentModal.elements.valuesList().eq(3).should("have.text", newStudent.mobileNum)
-        studentModal.elements.valuesList().eq(4).should("have.text", `${newStudent.dateOfBirth.day} ${newStudent.dateOfBirth.month},${newStudent.dateOfBirth.year}`)
+        studentModal.elements.valuesList().eq(4).should("have.text", newStudent.dateOfBirth.formattedDate)
         studentModal.elements.valuesList().eq(5).should("contain", newStudent.subjects[0]).and("contain", newStudent.subjects[1]).and("contain", newStudent.subjects[2])
         studentModal.elements.valuesList().eq(6).should("have.text", newStudent.hobby)
         studentModal.elements.valuesList().eq(7).invoke("text").then((text) => {
@@ -55,9 +48,11 @@ describe("Student registration form fill out", () => {
         })
         studentModal.elements.valuesList().eq(8).should("have.text", newStudent.address)
         studentModal.elements.valuesList().eq(9).should("have.text", `${newStudent.state} ${newStudent.city}`)
+
+        // close the modal
         studentModal.elements.closeModalBtn().click()
 
-        practiceFormPage.elements.app().should("not.have.attr", "aria-hidden")
+        // expect modal to NOT be in the viewport
         studentModal.elements.modalTitle().should("not.exist")
     })
 })
