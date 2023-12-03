@@ -4,7 +4,11 @@
   "description": "qa automation task",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cy:run:tables": "cypress run --spec 'cypress/e2e/tests/tableTests.cy.js'",
+    "cy:run:form": "cypress run --spec 'cypress/e2e/tests/practiceFormTest.cy.js'",
+    "cy:run:progbar": "cypress run --spec 'cypress/e2e/tests/progressBarTests.cy.js'"
   },
   "author": "mradman",
   "license": "ISC",
