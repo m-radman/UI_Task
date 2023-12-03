@@ -53,9 +53,10 @@ class StudentFaker {
     }
 
     getRandomDate() {
-        const startDate = new Date(1960, 0, 1) // 1st Jan 1960
-        const endDate = new Date(2005, 11, 31) // 31st Dec 2005
+        const startDate = new Date(1980, 0, 1) // 1st Jan 1980, some random start range date
+        const endDate = new Date(2005, 11, 31) // 31st Dec 2005, some end range date
 
+        // generate random date between startDate and endDate
         const randomDate = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
 
         const day = randomDate.getDate()
@@ -63,11 +64,13 @@ class StudentFaker {
         const year = randomDate.getFullYear().toString()
 
         const dayString = day < 10 ? `0${day}` : `${day}`
+        const dayOfWeek = this.mapDayIndexToName(randomDate.getDay())
+        const dayOfMonth = this.addSufixToDate(day)
 
         return {
-            day: day,
             month: month,
             year: year,
+            dayInputString: `Choose ${dayOfWeek}, ${month} ${dayOfMonth}, ${year}`,
             formattedDate: `${dayString} ${month},${year}`
         }
     }
@@ -100,6 +103,36 @@ class StudentFaker {
         }
     }
 
+    mapDayIndexToName(day) {
+        if(day == 0) {
+            return "Sunday"
+        } else if(day == 1) {
+            return "Monday"
+        } else if(day == 2) {
+            return "Tuesday"
+        } else if(day == 3) {
+            return "Wednesday"
+        } else if(day == 4) {
+            return "Thursday"
+        } else if(day == 5) {
+            return "Friday"
+        } else if(day == 6) {
+            return "Saturday"
+        }
+    }
+
+    addSufixToDate(dayOfMonth) {
+        if(dayOfMonth == 1 || dayOfMonth == 21 || dayOfMonth == 31) {
+            return `${dayOfMonth}st`
+        } else if (dayOfMonth == 2 || dayOfMonth == 22) {
+            return `${dayOfMonth}nd`
+        } else if (dayOfMonth == 3 || dayOfMonth == 23) {
+            return `${dayOfMonth}rd`
+        } else {
+            return `${dayOfMonth}th`
+        }
+    }
+
     getRandomSubjects(num) {
         let index
         let subjects = []
@@ -129,9 +162,7 @@ class StudentFaker {
         }
     }
 
-    // TODO: maybe rename to getRandomCity
     getRandomCity(state) {
-
         if(state == "NCR") {
             const option = Math.floor(Math.random() * 3 + 1)
 

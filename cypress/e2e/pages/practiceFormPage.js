@@ -6,7 +6,7 @@ class PracticeFormPage {
         genderRadioOption: (option) => cy.get(`#gender-radio-${option}`),
         mobileNumberField: () => cy.get("#userNumber"),
         dateOfBirthField: () => cy.get("#dateOfBirthInput"),
-        dayPicker: (day_no) => cy.get(".react-datepicker__month").contains(day_no),
+        dayPicker: (dayInputString) => cy.get(`[aria-label="${dayInputString}"]`),
         monthPicker: () => cy.get(".react-datepicker__month-select"),
         yearPicker:() => cy.get(".react-datepicker__year-select"),
         subjectsField: () => cy.get("#subjectsContainer"),
@@ -18,11 +18,15 @@ class PracticeFormPage {
         submitBtn: () => cy.get("#submit")
     }
 
-    selectDateOfBirth(day, month, year) {
+    selectDateOfBirth(dayInputString, month, year) {
         this.elements.dateOfBirthField().click()
+
+        // select year and month 
         this.elements.yearPicker().select(year)
         this.elements.monthPicker().select(month)
-        this.elements.dayPicker(day).click()
+
+        // select date of the month
+        this.elements.dayPicker(dayInputString).click()
     }
 
     selectGenderOption(gender) {

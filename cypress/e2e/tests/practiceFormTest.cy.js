@@ -23,7 +23,7 @@ describe("Student registration form tests", () => {
         practiceFormPage.elements.emailField().type(newStudent.email)
         practiceFormPage.selectGenderOption(newStudent.gender)
         practiceFormPage.elements.mobileNumberField().type(newStudent.mobileNum)
-        practiceFormPage.selectDateOfBirth(newStudent.dateOfBirth.day, newStudent.dateOfBirth.month, newStudent.dateOfBirth.year)
+        practiceFormPage.selectDateOfBirth(newStudent.dateOfBirth.dayInputString, newStudent.dateOfBirth.month, newStudent.dateOfBirth.year)
         practiceFormPage.enterSubjects(newStudent.subjects)
         practiceFormPage.checkHobbyOption(newStudent.hobby)
         practiceFormPage.elements.uploadPictureInput().selectFile(newStudent.picture)
