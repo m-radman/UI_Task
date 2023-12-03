@@ -9,7 +9,7 @@ class PracticeFormPage {
         dayPicker: (dayInputString) => cy.get(`[aria-label="${dayInputString}"]`),
         monthPicker: () => cy.get(".react-datepicker__month-select"),
         yearPicker:() => cy.get(".react-datepicker__year-select"),
-        subjectsField: () => cy.get("#subjectsContainer"),
+        subjectsInputField: () => cy.get(".subjects-auto-complete__input"),
         hobbyCheckOption: (option) => cy.get(`#hobbies-checkbox-${option}`),
         uploadPictureInput: () => cy.get("#uploadPicture"),
         currentAddressField: () => cy.get("#currentAddress"),
@@ -63,7 +63,8 @@ class PracticeFormPage {
 
     enterSubjects(subjects) {
         subjects.forEach((subject) => {
-            this.elements.subjectsField().type(subject + "{enter}")
+            this.elements.subjectsInputField().type(subject)
+            this.elements.subjectsInputField().type("{enter}")
         })
     }
 

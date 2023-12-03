@@ -134,17 +134,11 @@ class StudentFaker {
     }
 
     getRandomSubjects(num) {
-        let index
-        let subjects = []
+        // Shuffle the subjects
+        const shuffledSubjects = SUBJECTS.sort(() => 0.5 - Math.random());
 
-        for(let i = 0; i < num; i++) {
-            index = Math.floor(Math.random() * SUBJECTS.length)
-
-            if(subjects.includes(SUBJECTS[index]) == false) {
-                subjects.push(SUBJECTS[index])
-            }
-        }
-        return subjects
+        // Return first num from shuffled array 
+        return shuffledSubjects.slice(0, num);
     }
 
     getRandomState() {
